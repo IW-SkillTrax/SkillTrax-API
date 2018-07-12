@@ -1,0 +1,12 @@
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\bin\Debug\netcoreapp2.0\SkillTrax.deps.json
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\bin\Debug\netcoreapp2.0\SkillTrax.runtimeconfig.json
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\bin\Debug\netcoreapp2.0\SkillTrax.runtimeconfig.dev.json
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\bin\Debug\netcoreapp2.0\SkillTrax.dll
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\obj\Debug\netcoreapp2.0\SkillTrax.csprojAssemblyReference.cache
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\obj\Debug\netcoreapp2.0\SkillTrax.csproj.CoreCompileInputs.cache
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\obj\Debug\netcoreapp2.0\SkillTrax.AssemblyInfoInputs.cache
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\obj\Debug\netcoreapp2.0\SkillTrax.AssemblyInfo.cs
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\bin\Debug\netcoreapp2.0\SkillTrax.pdb
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\obj\Debug\netcoreapp2.0\SkillTrax.dll
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\obj\Debug\netcoreapp2.0\SkillTrax.pdb
+C:\Users\gbowden\workspace\IW-SkillTrax\api\SkillTrax\obj\Debug\netcoreapp2.0\UserSecretsAssemblyInfo.cs
