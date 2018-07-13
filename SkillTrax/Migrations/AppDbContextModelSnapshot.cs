@@ -78,26 +78,38 @@ namespace SkillTrax.Migrations
 
             modelBuilder.Entity("SkillTrax.Models.EmployeeCertification", b =>
                 {
-                    b.Property<int>("EmployeeId");
+                    b.Property<int>("EmployeeCertificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CertificationId");
 
-                    b.HasKey("EmployeeId", "CertificationId");
+                    b.Property<int>("EmployeeId");
+
+                    b.HasKey("EmployeeCertificationId");
 
                     b.HasIndex("CertificationId");
+
+                    b.HasIndex("EmployeeId");
 
                     b.ToTable("EmployeeCertification");
                 });
 
             modelBuilder.Entity("SkillTrax.Models.EmployeeSkill", b =>
                 {
-                    b.Property<int>("SkillId");
+                    b.Property<int>("EmployeeSkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("EmployeeId");
 
-                    b.HasKey("SkillId", "EmployeeId");
+                    b.Property<int>("SkillId");
+
+                    b.HasKey("EmployeeSkillId");
 
                     b.HasIndex("EmployeeId");
+
+                    b.HasIndex("SkillId");
 
                     b.ToTable("EmployeeSkill");
                 });
@@ -146,11 +158,17 @@ namespace SkillTrax.Migrations
 
             modelBuilder.Entity("SkillTrax.Models.SkillTypeSkill", b =>
                 {
+                    b.Property<int>("SkillTypeSkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("SkillId");
 
                     b.Property<int>("SkillTypeId");
 
-                    b.HasKey("SkillId", "SkillTypeId");
+                    b.HasKey("SkillTypeSkillId");
+
+                    b.HasIndex("SkillId");
 
                     b.HasIndex("SkillTypeId");
 
@@ -173,11 +191,17 @@ namespace SkillTrax.Migrations
 
             modelBuilder.Entity("SkillTrax.Models.SolutionSkill", b =>
                 {
+                    b.Property<int>("SolutionSkillId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
                     b.Property<int>("SkillId");
 
                     b.Property<int>("SolutionId");
 
-                    b.HasKey("SkillId", "SolutionId");
+                    b.HasKey("SolutionSkillId");
+
+                    b.HasIndex("SkillId");
 
                     b.HasIndex("SolutionId");
 

@@ -5,6 +5,8 @@ namespace SkillTrax.Models
 {
     public class EmployeeCertification
     {
+        [Key]
+        public int EmployeeCertificationId { get; set; }
         public int CertificationId { get; set; }
         public Certification Certification { get; set; }
 

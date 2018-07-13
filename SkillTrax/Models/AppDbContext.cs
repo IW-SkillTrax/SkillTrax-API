@@ -26,8 +26,10 @@ namespace SkillTrax.Models
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //configures SolutionSkill intersection Entity
-            modelBuilder.Entity<SolutionSkill>()
-                .HasKey(SS => new { SS.SkillId, SS.SolutionId });
+
+            //modelBuilder.Entity<SolutionSkill>()
+            //    .HasKey(SS => new { SS.SkillId, SS.SolutionId });
+
             modelBuilder.Entity<SolutionSkill>()
                 .HasOne(SS => SS.Skill)
                 .WithMany(S => S.SolutionSkills)
@@ -38,8 +40,10 @@ namespace SkillTrax.Models
                 .HasForeignKey(SS => SS.SolutionId);
 
             //configures SkillTypeSkill intersection Entity
-            modelBuilder.Entity<SkillTypeSkill>()
-                .HasKey(STS => new { STS.SkillId, STS.SkillTypeId });
+
+            //modelBuilder.Entity<SkillTypeSkill>()
+            //    .HasKey(STS => new { STS.SkillId, STS.SkillTypeId });
+
             modelBuilder.Entity<SkillTypeSkill>()
                 .HasOne(STS => STS.Skill)
                 .WithMany(S => S.SkillTypeSkills)
@@ -50,8 +54,10 @@ namespace SkillTrax.Models
                 .HasForeignKey(STS => STS.SkillTypeId);
 
             //configures EmployeeSkill intersection Entity
-            modelBuilder.Entity<EmployeeSkill>()
-                .HasKey(ES => new { ES.SkillId, ES.EmployeeId });
+
+            //modelBuilder.Entity<EmployeeSkill>()
+            //    .HasKey(ES => new { ES.SkillId, ES.EmployeeId });
+
             modelBuilder.Entity<EmployeeSkill>()
                 .HasOne(ES => ES.Skill)
                 .WithMany(S => S.EmployeeSkills)
@@ -62,8 +68,10 @@ namespace SkillTrax.Models
                 .HasForeignKey(ES => ES.EmployeeId);
 
             //configures EmployeeCertification intersection Entity
-            modelBuilder.Entity<EmployeeCertification>()
-                .HasKey(EC => new { EC.EmployeeId, EC.CertificationId });
+
+            //modelBuilder.Entity<EmployeeCertification>()
+            //    .HasKey(EC => new { EC.EmployeeId, EC.CertificationId });
+
             modelBuilder.Entity<EmployeeCertification>()
                 .HasOne(EC => EC.Certification)
                 .WithMany(C => C.EmployeeCertifications)
