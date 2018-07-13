@@ -13429,23 +13429,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\gbowden\\.nuget\\packages\\": {},
+    "C:\\Users\\bcutts\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\gbowden\\workspace\\IW-SkillTrax\\api\\SkillTrax\\SkillTrax.csproj",
+      "projectUniqueName": "C:\\Users\\bcutts\\Source\\Repos\\SkillTrax-API\\SkillTrax\\SkillTrax.csproj",
       "projectName": "SkillTrax",
-      "projectPath": "C:\\Users\\gbowden\\workspace\\IW-SkillTrax\\api\\SkillTrax\\SkillTrax.csproj",
-      "packagesPath": "C:\\Users\\gbowden\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\gbowden\\workspace\\IW-SkillTrax\\api\\SkillTrax\\obj\\",
+      "projectPath": "C:\\Users\\bcutts\\Source\\Repos\\SkillTrax-API\\SkillTrax\\SkillTrax.csproj",
+      "packagesPath": "C:\\Users\\bcutts\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\bcutts\\Source\\Repos\\SkillTrax-API\\SkillTrax\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\gbowden\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\bcutts\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [

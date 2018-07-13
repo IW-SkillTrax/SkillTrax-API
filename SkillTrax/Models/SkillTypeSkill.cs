@@ -6,14 +6,12 @@ namespace SkillTrax.Models
 {
     public class SkillTypeSkill
     {
-        [Key]
-        public int SkillTypeSkillId { get; set; }
-
-        [ForeignKey("Skill")]
+    
         public int SkillId { get; set; }
-
-        [ForeignKey("SkillType")]
+        public Skill Skill { get; set; }
+    
         public int SkillTypeId { get; set; }
+        public SkillType SkillType { get; set; }
 
     }
 }

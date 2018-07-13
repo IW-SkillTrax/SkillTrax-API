@@ -79,7 +79,7 @@ namespace SkillTrax.Services
                        SkillTypeName = st.SkillTypeName,
                        SolutionId = so.SolutionId,
                        SolutionIdName = so.SolutionName,
-                       EmployeeSkillId = es.EmployeeSkillId
+                       //EmployeeSkillId = es.EmployeeSkillId
                    };
         }
 
@@ -116,7 +116,9 @@ namespace SkillTrax.Services
 
         internal int DeleteEmployeeSkill(int employeeSkillId)
         {
-            var employeeSkill = new EmployeeSkill { EmployeeSkillId = employeeSkillId };
+            var employeeSkill = new EmployeeSkill {
+                //EmployeeSkillId = employeeSkillId
+            };
             db.EmployeeSkill.Remove(employeeSkill);
             return db.SaveChanges();
         }

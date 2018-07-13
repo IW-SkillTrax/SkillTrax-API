@@ -7,10 +7,9 @@ namespace SkillTrax.Models
     {
         [Key]
         public int SolutionId { get; set; }
-
         [Required]
         public string SolutionName { get; set; }
 
-        public virtual ICollection<Skill> Skills { get; set; }
+        public ICollection<SolutionSkill> SolutionSkills { get; set; }
     }
 }

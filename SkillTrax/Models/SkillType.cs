@@ -7,11 +7,10 @@ namespace SkillTrax.Models
     {
         [Key]
         public int SkillTypeId { get; set; }
-
         [Required]
         public string SkillTypeName { get; set; }
 
-        public virtual ICollection<Skill> Skills { get; set; }
+        public ICollection<SkillTypeSkill> SkillTypeSkills { get; set; }
 
     }
 }
