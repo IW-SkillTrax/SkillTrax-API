@@ -22,5 +22,6 @@ namespace SkillTrax.Models
         public bool IsAdmin { get; set; }
 
         public string AdUniqueIdentifier { get; set; }
+        public string test {get; set;}
     }
 }
