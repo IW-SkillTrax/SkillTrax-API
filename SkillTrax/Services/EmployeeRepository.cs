@@ -33,62 +33,73 @@ namespace SkillTrax.Services
             return db.SaveChanges();
         }
 
-        internal IQueryable GetEmployee(int id)
+        internal Employee GetEmployee(int id)
         {
-            return from e in db.Employee
-                   where e.EmployeeId == id
-                   select new
-                   {
-                       e.FirstName,
-                       e.LastName,
-                       e.RoleType.RoleName,
-                       e.IsAdmin,
-                       e.AdUniqueIdentifier
-                   };
+            return db.Employee.FirstOrDefault(Employee => Employee.EmployeeId == id);
+
+            //return from e in db.Employee
+            //       where e.EmployeeId == id
+            //       select new
+            //       {
+            //           e.FirstName,
+            //           e.LastName,
+            //           e.RoleType.RoleName,
+            //           e.IsAdmin,
+            //           e.AdUniqueIdentifier
+            //       };
         }
 
-        internal IQueryable GetEmployeeByAdUniqueId(string AdUniqueId)
+        internal Employee GetEmployeeByAdUniqueId(string AdUniqueId)
         {
-            return from e in db.Employee
-                   where e.AdUniqueIdentifier == AdUniqueId
-                   select new
-                   {
-                       e.EmployeeId,
-                       e.FirstName,
-                       e.LastName,
-                       e.RoleType.RoleName,
-                       e.IsAdmin,
-                   };
+            return db.Employee.FirstOrDefault(Employee => Employee.AdUniqueIdentifier == AdUniqueId);
+
+            //return from e in db.Employee
+            //       where e.AdUniqueIdentifier == AdUniqueId
+            //       select new
+            //       {
+            //           e.EmployeeId,
+            //           e.FirstName,
+            //           e.LastName,
+            //           e.RoleType.RoleName,
+            //           e.IsAdmin,
+            //       };
         }
 
-        internal IQueryable GetEmployeeSkills(int employeeId)
+        internal List<Skill> GetEmployeeSkills(int employeeId)
         {
-            return from s in db.Skill
-                   join es in db.EmployeeSkill on s.SkillId equals es.SkillId where es.EmployeeId == employeeId
-                   join sts in db.SkillTypeSkill on s.SkillId equals sts.SkillId
-                   join st in db.SkillType on sts.SkillTypeId equals st.SkillTypeId
-                   join ss in db.SolutionSkill on s.SkillId equals ss.SkillId
-                   join so in db.Solution on ss.SolutionId equals so.SolutionId
+            List<EmployeeSkill> employeeSkills = db.EmployeeSkill.Where(ES => ES.EmployeeId == employeeId).ToList();
+            List<Skill> Skills = new List<Skill>();
+            foreach (EmployeeSkill employeeSkill in employeeSkills)
+            {
+                Skills.Add(db.Skill.FirstOrDefault(S => S.SkillId == employeeSkill.SkillId));
+            }
+            return Skills;
+
+            //return from s in db.Skill
+            //       join es in db.EmployeeSkill on s.SkillId equals es.SkillId where es.EmployeeId == employeeId
+            //       join sts in db.SkillTypeSkill on s.SkillId equals sts.SkillId
+            //       join st in db.SkillType on sts.SkillTypeId equals st.SkillTypeId
+            //       join ss in db.SolutionSkill on s.SkillId equals ss.SkillId
+            //       join so in db.Solution on ss.SolutionId equals so.SolutionId
                    
 
-                   select new SkillListItem
-                   {
-                       SkillId = s.SkillId,
-                       SkillName = s.SkillName,
-                       SkillTypeId = st.SkillTypeId,
-                       SkillTypeName = st.SkillTypeName,
-                       SolutionId = so.SolutionId,
-                       SolutionIdName = so.SolutionName,
-                       EmployeeSkillId = es.EmployeeSkillId
-                   };
+            //       select new SkillListItem
+            //       {
+            //           SkillId = s.SkillId,
+            //           SkillName = s.SkillName,
+            //           SkillTypeId = st.SkillTypeId,
+            //           SkillTypeName = st.SkillTypeName,
+            //           SolutionId = so.SolutionId,
+            //           SolutionIdName = so.SolutionName,
+            //           EmployeeSkillId = es.EmployeeSkillId
+            //       };
         }
 
         internal IQueryable GetAvailableSkills(int employeeId)
         {
 
+
             //var x = db.Skill.Where(skill => skill.Employees.All(emp => emp.EmployeeId != employeeId));
-
-
 
 
             var userskills = from s in db.Skill

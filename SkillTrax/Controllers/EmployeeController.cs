@@ -17,58 +17,58 @@ namespace SkillTrax.Controllers
     public class EmployeeController : Controller
     {
 
-        private readonly AppDbContext db;
+        private readonly IEmployeeRepository repo;
 
-        public EmployeeController(AppDbContext context)
+        public EmployeeController(IEmployeeRepository _repo)
         {
-            db = context;
+            repo = _repo;
         }
 
         [Route(""), HttpGet]
-        public IQueryable<Employee> GetEmployees()
+        public List<Employee> GetEmployees()
         {
-            return db.Employee; 
+            return repo.GetEmployees(); 
         }
 
         [Route("{id}"), HttpGet]
-        public IQueryable GetEmployee(int id)
+        public Employee GetEmployee(int id)
         {
-            var repo = new EmployeeRepository(db);
+            
             return repo.GetEmployee(id);
         }
 
         [Route("ActiveDirectoryId/{adUniqueId}"), HttpGet]
-        public IQueryable GetEmployeeByAdUniqueId(string adUniqueId)
+        public Employee GetEmployeeByAdUniqueId(string adUniqueId)
         {
-            var repo = new EmployeeRepository(db);
+            
             return repo.GetEmployeeByAdUniqueId(adUniqueId);
         }
 
         [Route("{employeeId}/Skill/{skillId}"), HttpPost]
         public int AddEmployeeSkill(int employeeId, int skillId)
         {
-            var repo = new EmployeeRepository(db);
+           
             return repo.AddEmployeeSkill(employeeId, skillId);
         }
 
         [Route("EmployeeSkill/{employeeSkillId}"), HttpDelete]
         public int DeleteEmployeeSkill(int employeeSkillId)
         {
-            var repo = new EmployeeRepository(db);
+            
             return repo.DeleteEmployeeSkill(employeeSkillId);
         }
 
         [Route("{employeeId}/Skills"), HttpGet]
-        public IQueryable GetEmployeeSkill(int employeeId)
+        public List<Skill> GetEmployeeSkill(int employeeId)
         {
-            var repo = new EmployeeRepository(db);
+            
             return repo.GetEmployeeSkills(employeeId);
         }
 
         [Route("{employeeId}/AvailableSkills"), HttpGet]
         public IQueryable GetAvailableSkills(int employeeId)
         {
-            var repo = new EmployeeRepository(db);
+            
             return repo.GetAvailableSkills(employeeId);
         }
     }
