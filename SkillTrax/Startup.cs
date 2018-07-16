@@ -16,6 +16,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using SkillTrax.Models;
 using Microsoft.EntityFrameworkCore;
+using SkillTrax.Services;
 
 namespace SkillTrax
 {
@@ -74,6 +75,12 @@ namespace SkillTrax
 
             services.AddDbContext<AppDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
+            services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ISkillRepository, SkillRepository>();
+            services.AddScoped<ISkillDataService, SkillDataService>();
+            services.AddScoped<IEmployeeDataService, EmployeeDataService>();
+            //services.AddScoped<ICertificationRepository, CertificationRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

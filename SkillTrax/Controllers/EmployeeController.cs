@@ -9,67 +9,50 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using SkillTrax.Models;
 using SkillTrax.Services;
+using SkillTrax.ViewModels;
 
 namespace SkillTrax.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Employee")]
+    [Route("[controller]")]
     public class EmployeeController : Controller
     {
+        private readonly IEmployeeDataService _DataService;
 
-        private readonly IEmployeeRepository repo;
-
-        public EmployeeController(IEmployeeRepository _repo)
+        public EmployeeController(IEmployeeDataService DataService)
         {
-            repo = _repo;
+            _DataService = DataService;
         }
 
-        [Route(""), HttpGet]
-        public List<Employee> GetEmployees()
+        [HttpGet("")]
+        public async Task<IActionResult> GetEmployees()
         {
-            return repo.GetEmployees(); 
+            return Ok(await _DataService.GetEmployeeViewModels());
         }
 
-        [Route("{id}"), HttpGet]
-        public Employee GetEmployee(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployeeById(int id)
         {
-            
-            return repo.GetEmployee(id);
+            return Ok(await _DataService.GetEmployeeViewModel(id));
         }
 
-        [Route("ActiveDirectoryId/{adUniqueId}"), HttpGet]
-        public Employee GetEmployeeByAdUniqueId(string adUniqueId)
+        [HttpGet("ActiveDirectoryId/{adUniqueId}")]
+        public async Task<IActionResult> GetEmployeeByAdUniqueId(string adUniqueId)
         {
-            
-            return repo.GetEmployeeByAdUniqueId(adUniqueId);
+            return Ok(await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId));
         }
 
-        [Route("{employeeId}/Skill/{skillId}"), HttpPost]
-        public int AddEmployeeSkill(int employeeId, int skillId)
+        [HttpPost("{employeeId}/Skill/{skillId}")]
+        public async Task<IActionResult> AddEmployeeSkill(int employeeId, int skillId)
         {
-           
-            return repo.AddEmployeeSkill(employeeId, skillId);
+            return Ok( await _DataService.AddEmployeeSkill(employeeId, skillId));
         }
 
-        [Route("EmployeeSkill/{employeeSkillId}"), HttpDelete]
-        public int DeleteEmployeeSkill(int employeeSkillId)
+        [HttpDelete("EmployeeSkill/{employeeSkillId}")]
+        public async Task<IActionResult> DeleteEmployeeSkill(int employeeSkillId)
         {
-            
-            return repo.DeleteEmployeeSkill(employeeSkillId);
+            return Ok(await _DataService.DeleteEmployeeSkill(employeeSkillId));
         }
-
-        [Route("{employeeId}/Skills"), HttpGet]
-        public List<Skill> GetEmployeeSkill(int employeeId)
-        {
-            
-            return repo.GetEmployeeSkills(employeeId);
-        }
-
-        [Route("{employeeId}/AvailableSkills"), HttpGet]
-        public IQueryable GetAvailableSkills(int employeeId)
-        {
-            
-            return repo.GetAvailableSkills(employeeId);
-        }
+       
     }
 }

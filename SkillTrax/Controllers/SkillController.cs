@@ -7,25 +7,25 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SkillTrax.Models;
 using SkillTrax.Services;
+using SkillTrax.ViewModels;
 
 namespace SkillTrax.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Skill")]
+    [Route("[controller]")]
     public class SkillController : Controller
     {
-        private readonly AppDbContext db;
+        private readonly ISkillDataService _dataService;
 
-        public SkillController(AppDbContext context)
+        public SkillController(ISkillDataService dataService)
         {
-            db = context;
+            _dataService = dataService;
         }
 
         [Route(""), HttpGet]
-        public IQueryable<SkillListItem> GetSkillsList()
+        public async Task<IActionResult> GetSkills()
         {
-            var repo = new SkillRepository(db);
-            return repo.GetSkillList(); 
+            return Ok(await _dataService.GetSkillViewModels());
         }
 
 
