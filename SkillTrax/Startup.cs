@@ -17,6 +17,7 @@ using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using SkillTrax.Models;
 using Microsoft.EntityFrameworkCore;
 using SkillTrax.Services;
+using SkillTrax.Repositories;
 
 namespace SkillTrax
 {
@@ -78,9 +79,12 @@ namespace SkillTrax
 
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
+            services.AddScoped<ICertificationRepository, CertificationRepository>();
+
             services.AddScoped<ISkillDataService, SkillDataService>();
             services.AddScoped<IEmployeeDataService, EmployeeDataService>();
-            //services.AddScoped<ICertificationRepository, CertificationRepository>();
+            services.AddScoped<ICertificationDataService, CertificationDataService>();
+            
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

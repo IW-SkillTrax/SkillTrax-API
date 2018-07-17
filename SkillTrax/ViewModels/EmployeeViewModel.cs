@@ -8,7 +8,6 @@ namespace SkillTrax.ViewModels
 {
     public class EmployeeViewModel
     {
-        
         public int EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,6 +16,5 @@ namespace SkillTrax.ViewModels
         public RoleType RoleType { get; set; }
         public List<SkillViewModel> Skills { get; set; }
         public List<Certification> Certifications { get; set; }
-
     }
 }

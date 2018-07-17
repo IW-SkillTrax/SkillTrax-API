@@ -10,14 +10,15 @@ namespace SkillTrax.Services
     public class EmployeeDataService : IEmployeeDataService
     {
         private readonly IEmployeeRepository _employeeRepo;
-        private readonly ISkillRepository _skillRepo;
+        private readonly ISkillDataService _skillDataService;
 
         public EmployeeDataService(
             IEmployeeRepository employeeRepo,
-            ISkillRepository skillRepo)
+            ISkillDataService skillDataService)
         {
+            _skillDataService = skillDataService;
             _employeeRepo = employeeRepo;
-            _skillRepo = skillRepo;
+            
         }
 
         public async Task<EmployeeViewModel> GetEmployeeViewModel(int Id)
@@ -31,16 +32,17 @@ namespace SkillTrax.Services
                 IsAdmin = employee.IsAdmin,
                 AdUniqueIdentifier = employee.AdUniqueIdentifier,
                 RoleType = employee.RoleType,
-                Certifications = GetEmployeeCertifications(Id),
+                Certifications = await _employeeRepo.GetEmployeeCertifications(Id),
                 Skills = new List<SkillViewModel>()
             };
             List<Skill> skills = await _employeeRepo.GetEmployeeSkills(Id);
             foreach (Skill skill in skills)
             {
-                employeeViewModel.Skills.Add(_skillRepo.GetSkillViewModelById(skill.SkillId));
+                employeeViewModel.Skills.Add(await _skillDataService.GetSkillViewModelById(skill.SkillId));
             }
             return employeeViewModel;
         }
+
         public async Task<List<EmployeeViewModel>> GetEmployeeViewModels()
         {
             List<Employee> employees = await _employeeRepo.GetEmployees();
@@ -51,15 +53,18 @@ namespace SkillTrax.Services
             }
             return employeeViewModels;
         }
+
         public async Task<EmployeeViewModel> GetEmployeeViewModelByAdUniqueId(string adUniqueId)
         {
             Employee employee = await _employeeRepo.GetEmployeeByAdUniqueId(adUniqueId);
             return await GetEmployeeViewModel(employee.EmployeeId);
         }
+
         public async Task<int> DeleteEmployeeSkill(int employeeSkillId)
         {
             return await _employeeRepo.DeleteEmployeeSkill(employeeSkillId);
         }
+
         public async Task<int> AddEmployeeSkill(int employeeId, int skillId)
         {
             return await _employeeRepo.AddEmployeeSkill(employeeId, skillId);

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using SkillTrax.Models;
 using SkillTrax.Services;
 using SkillTrax.ViewModels;
 
@@ -27,7 +26,8 @@ namespace SkillTrax.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetEmployees()
         {
-            return Ok(await _DataService.GetEmployeeViewModels());
+            List<EmployeeViewModel> employees = await _DataService.GetEmployeeViewModels();
+            return Ok(employees);
         }
 
         [HttpGet("{id}")]
@@ -39,9 +39,9 @@ namespace SkillTrax.Controllers
         [HttpGet("ActiveDirectoryId/{adUniqueId}")]
         public async Task<IActionResult> GetEmployeeByAdUniqueId(string adUniqueId)
         {
-            return Ok(await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId));
+          return Ok(await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId));
         }
-
+        
         [HttpPost("{employeeId}/Skill/{skillId}")]
         public async Task<IActionResult> AddEmployeeSkill(int employeeId, int skillId)
         {

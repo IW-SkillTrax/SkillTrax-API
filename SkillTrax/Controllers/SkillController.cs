@@ -5,7 +5,6 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using SkillTrax.Models;
 using SkillTrax.Services;
 using SkillTrax.ViewModels;
 
@@ -22,12 +21,10 @@ namespace SkillTrax.Controllers
             _dataService = dataService;
         }
 
-        [Route(""), HttpGet]
+        [HttpGet("")]
         public async Task<IActionResult> GetSkills()
         {
             return Ok(await _dataService.GetSkillViewModels());
         }
-
-
     }
 }
