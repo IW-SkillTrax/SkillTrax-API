@@ -21,8 +21,15 @@ namespace SkillTrax.Services
         {
             return _db.Employee
                 .Include(E => E.EmployeeCertifications)
+                    .ThenInclude(EC => EC.Certification)
+                        .ThenInclude(C => C.CertCategory)
                 .Include(E => E.EmployeeSkills)
-                .Include(E => E.RoleType)
+                    .ThenInclude(ES => ES.Skill)
+                        .ThenInclude(S => S.Solution)
+                 .Include(E => E.EmployeeSkills)
+                    .ThenInclude(ES => ES.Skill)
+                        .ThenInclude(S => S.SkillType)
+                 .Include(E => E.RoleType)
                 .ToList();
         }
 
@@ -30,8 +37,15 @@ namespace SkillTrax.Services
         {
             return _db.Employee
                 .Include(E => E.EmployeeCertifications)
+                    .ThenInclude(EC => EC.Certification)
+                        .ThenInclude(C => C.CertCategory)
                 .Include(E => E.EmployeeSkills)
-                .Include(E => E.RoleType)
+                    .ThenInclude(ES => ES.Skill)
+                        .ThenInclude(S => S.Solution)
+                 .Include(E => E.EmployeeSkills)
+                    .ThenInclude(ES => ES.Skill)
+                        .ThenInclude(S => S.SkillType)
+                 .Include(E => E.RoleType)
                 .FirstOrDefault(Employee => Employee.EmployeeId == id);
                 
         }
@@ -39,9 +53,16 @@ namespace SkillTrax.Services
         public async Task<Employee> GetEmployeeByAdUniqueId(string AdUniqueId)
         {
             return _db.Employee
-                .Include(E => E.EmployeeSkills)
                 .Include(E => E.EmployeeCertifications)
-                .Include(E => E.RoleType)
+                    .ThenInclude(EC => EC.Certification)
+                        .ThenInclude(C => C.CertCategory)
+                .Include(E => E.EmployeeSkills)
+                    .ThenInclude(ES => ES.Skill)
+                        .ThenInclude(S => S.Solution)
+                 .Include(E => E.EmployeeSkills)
+                    .ThenInclude(ES => ES.Skill)
+                        .ThenInclude(S => S.SkillType)
+                 .Include(E => E.RoleType)
                 .FirstOrDefault(Employee => Employee.AdUniqueIdentifier == AdUniqueId);
         }
 

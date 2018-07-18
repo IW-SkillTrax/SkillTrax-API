@@ -11,8 +11,7 @@ namespace SkillTrax.Services
     {
         Task<Skill> GetSkillById(int Id);
         Task<List<Skill>> GetSkills();
-        Task<Solution> getSkillSolution(int Id);
-        Task<SkillType> getSkillType(int Id);
+        
         
     }
 }

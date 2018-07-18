@@ -1,5 +1,6 @@
 ﻿using SkillTrax.Models;
 using SkillTrax.Repositories;
+using SkillTrax.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,9 +15,22 @@ namespace SkillTrax.Services
         {
             _repo = repo;
         }
-        public async Task<List<Certification>> GetCertifications()
+        public async Task<List<CertificationViewModel>> GetCertifications()
         {
-            return await _repo.GetCertifications();
+            List<Certification> certifications = await _repo.GetCertifications();
+            List<CertificationViewModel> certificationViewModels = new List<CertificationViewModel>();
+            foreach(Certification certification in certifications)
+            {
+                CertificationViewModel certificationViewModel = new CertificationViewModel
+                {
+                    CertificationId = certification.CertificationId,
+                    CertificationName = certification.CertificationName,
+                    CertCategoryId = certification.CertCategory.CertCategoryId,
+                    CertCategoryName = certification.CertCategory.CertCategoryName
+                };
+                certificationViewModels.Add(certificationViewModel);
+            }
+            return certificationViewModels;
         }
     }
 }

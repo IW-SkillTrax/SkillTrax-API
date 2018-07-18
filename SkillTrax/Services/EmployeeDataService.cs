@@ -24,22 +24,11 @@ namespace SkillTrax.Services
         public async Task<EmployeeViewModel> GetEmployeeViewModel(int Id)
         {
             Employee employee = await _employeeRepo.GetEmployee(Id);
-            EmployeeViewModel employeeViewModel = new EmployeeViewModel()
+            if(employee == null)
             {
-                EmployeeId = employee.EmployeeId,
-                FirstName = employee.FirstName,
-                LastName = employee.LastName,
-                IsAdmin = employee.IsAdmin,
-                AdUniqueIdentifier = employee.AdUniqueIdentifier,
-                RoleType = employee.RoleType,
-                Certifications = await _employeeRepo.GetEmployeeCertifications(Id),
-                Skills = new List<SkillViewModel>()
-            };
-            List<Skill> skills = await _employeeRepo.GetEmployeeSkills(Id);
-            foreach (Skill skill in skills)
-            {
-                employeeViewModel.Skills.Add(await _skillDataService.GetSkillViewModelById(skill.SkillId));
+                return null;
             }
+            EmployeeViewModel employeeViewModel = new EmployeeViewModel(employee);
             return employeeViewModel;
         }
 
@@ -49,7 +38,7 @@ namespace SkillTrax.Services
             List<EmployeeViewModel> employeeViewModels = new List<EmployeeViewModel>();
             foreach (Employee employee in employees)
             {
-                employeeViewModels.Add(await GetEmployeeViewModel(employee.EmployeeId));
+                employeeViewModels.Add(new EmployeeViewModel(employee));
             }
             return employeeViewModels;
         }
@@ -57,7 +46,11 @@ namespace SkillTrax.Services
         public async Task<EmployeeViewModel> GetEmployeeViewModelByAdUniqueId(string adUniqueId)
         {
             Employee employee = await _employeeRepo.GetEmployeeByAdUniqueId(adUniqueId);
-            return await GetEmployeeViewModel(employee.EmployeeId);
+            if (employee == null)
+            {
+                return null;
+            }
+            return new EmployeeViewModel(employee);
         }
 
         public async Task<int> DeleteEmployeeSkill(int employeeSkillId)

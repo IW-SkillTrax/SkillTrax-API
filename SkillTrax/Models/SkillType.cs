@@ -9,8 +9,7 @@ namespace SkillTrax.Models
         public int SkillTypeId { get; set; }
         [Required]
         public string SkillTypeName { get; set; }
-
-        public ICollection<SkillTypeSkill> SkillTypeSkills { get; set; }
+        public IEnumerable<Skill> Skills { get; set; }
 
     }
 }

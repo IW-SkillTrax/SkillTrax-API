@@ -33,13 +33,27 @@ namespace SkillTrax.Controllers
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
-            return Ok(await _DataService.GetEmployeeViewModel(id));
+            if(id < 1)
+            {
+                return NotFound();
+            }
+            EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModel(id);
+            if(employeeViewModel == null)
+            {
+                return NotFound();
+            }
+            return Ok(employeeViewModel);
         }
 
         [HttpGet("ActiveDirectoryId/{adUniqueId}")]
         public async Task<IActionResult> GetEmployeeByAdUniqueId(string adUniqueId)
         {
-          return Ok(await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId));
+            EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId);
+            if (employeeViewModel == null)
+            {
+                return NotFound();
+            }
+            return Ok(employeeViewModel);
         }
         
         [HttpPost("{employeeId}/Skill/{skillId}")]

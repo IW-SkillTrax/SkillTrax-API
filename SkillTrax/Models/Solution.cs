@@ -9,7 +9,6 @@ namespace SkillTrax.Models
         public int SolutionId { get; set; }
         [Required]
         public string SolutionName { get; set; }
-
-        public ICollection<SolutionSkill> SolutionSkills { get; set; }
+        public IEnumerable<Skill> Skills { get; set; }
     }
 }

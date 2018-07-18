@@ -21,21 +21,21 @@ namespace SkillTrax.Services
             List<SkillViewModel> skillViewModels = new List<SkillViewModel>();
             foreach (Skill skill in skills)
             {
-                skillViewModels.Add(await GetSkillViewModelById(skill.SkillId));
+                SkillViewModel skillViewModel = new SkillViewModel(skill);
+               
+                skillViewModels.Add(skillViewModel);
             }
             return skillViewModels;
         }
         public async Task<SkillViewModel> GetSkillViewModelById(int Id)
         {
             Skill skill = await _repo.GetSkillById(Id);
-
-            SkillViewModel skillViewModel = new SkillViewModel
+            if (skill == null)
             {
-                SkillId = skill.SkillId,
-                SkillName = skill.SkillName,
-                SkillType = await _repo.getSkillType(Id),
-                Solution = await _repo.getSkillSolution(Id)
-            };
+                return null;
+            }
+            SkillViewModel skillViewModel = new SkillViewModel(skill);
+            
             return skillViewModel;
         }
     }

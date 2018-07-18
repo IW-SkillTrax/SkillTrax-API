@@ -10,7 +10,7 @@ namespace SkillTrax.Models
         public int CertCategoryId { get; set; }
         [Required]
         public string CertCategoryName { get; set; }
-        public ICollection <Certification> Certifications { get; set; }
+        public IEnumerable <Certification> Certifications { get; set; }
          
     }
 }

@@ -1,13 +1,11 @@
-﻿using SkillTrax.Models;
-using System;
+﻿using SkillTrax.ViewModels;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace SkillTrax.Services
 {
     public interface ICertificationDataService
     {
-        Task<List<Certification>> GetCertifications();
+        Task<List<CertificationViewModel>> GetCertifications();
     }
 }
