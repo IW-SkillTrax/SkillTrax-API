@@ -26,47 +26,82 @@ namespace SkillTrax.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetEmployees()
         {
-            List<EmployeeViewModel> employees = await _DataService.GetEmployeeViewModels();
-            return Ok(employees);
+            try
+            {
+                List<EmployeeViewModel> employees = await _DataService.GetEmployeeViewModels();
+                return Ok(employees);
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEmployeeById(int id)
         {
-            if(id < 1)
+            try
             {
-                return NotFound();
+                EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModel(id);
+                if (employeeViewModel == null)
+                {
+                    return NotFound();
+                }
+                return Ok(employeeViewModel);
             }
-            EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModel(id);
-            if(employeeViewModel == null)
+            catch(Exception e)
             {
-                return NotFound();
+
             }
-            return Ok(employeeViewModel);
+            return BadRequest();
         }
 
         [HttpGet("ActiveDirectoryId/{adUniqueId}")]
         public async Task<IActionResult> GetEmployeeByAdUniqueId(string adUniqueId)
         {
-            EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId);
-            if (employeeViewModel == null)
+            try
             {
-                return NotFound();
+                EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId);
+                if (employeeViewModel == null)
+                {
+                    return NotFound();
+                }
+                return Ok(employeeViewModel);
             }
-            return Ok(employeeViewModel);
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
         
         [HttpPost("{employeeId}/Skill/{skillId}")]
         public async Task<IActionResult> AddEmployeeSkill(int employeeId, int skillId)
         {
-            return Ok( await _DataService.AddEmployeeSkill(employeeId, skillId));
+            try
+            {
+                return Ok(await _DataService.AddEmployeeSkill(employeeId, skillId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
 
         [HttpDelete("EmployeeSkill/{employeeSkillId}")]
         public async Task<IActionResult> DeleteEmployeeSkill(int employeeSkillId)
         {
-            return Ok(await _DataService.DeleteEmployeeSkill(employeeSkillId));
+            try
+            {
+                return Ok(await _DataService.DeleteEmployeeSkill(employeeSkillId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
-       
     }
 }

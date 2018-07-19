@@ -19,17 +19,19 @@ namespace SkillTrax.Services
 
         public async Task<Skill> GetSkillById(int Id)
         {
-            return _db.Skill
+            return await _db.Skill
                 .Include(S => S.SkillType)
                 .Include(S => S.Solution)
-                .FirstOrDefault(S => S.SkillId == Id);
+                .AsNoTracking()
+                .FirstOrDefaultAsync(S => S.SkillId == Id);
         }
         public async Task<List<Skill>> GetSkills()
         {
-            return _db.Skill
+            return await _db.Skill
                 .Include(S => S.SkillType)
                 .Include(S => S.Solution)
-                .ToList();
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

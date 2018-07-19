@@ -16,9 +16,10 @@ namespace SkillTrax.Repositories
         }
         public async Task<List<Certification>> GetCertifications()
         {
-            return _db.Certification
+            return await _db.Certification
                 .Include(C => C.CertCategory)
-                .ToList();
+                .AsNoTracking()
+                .ToListAsync();
         }
     }
 }

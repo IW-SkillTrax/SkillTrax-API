@@ -20,7 +20,15 @@ namespace SkillTrax.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetCertifications()
         {
-            return Ok(await  _dataService.GetCertifications());
+            try
+            {
+                return Ok(await _dataService.GetCertifications());
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
     }
 }

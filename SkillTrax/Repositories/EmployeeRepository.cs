@@ -12,14 +12,14 @@ namespace SkillTrax.Services
 
         private readonly AppDbContext _db;
 
-        public EmployeeRepository(AppDbContext context, ISkillRepository skillRepo)
+        public EmployeeRepository(AppDbContext context)
         {
             _db = context ?? throw new ArgumentNullException(nameof(context));
         }
 
         public async Task<List<Employee>> GetEmployees()
         {
-            return _db.Employee
+            return await _db.Employee
                 .Include(E => E.EmployeeCertifications)
                     .ThenInclude(EC => EC.Certification)
                         .ThenInclude(C => C.CertCategory)
@@ -30,12 +30,13 @@ namespace SkillTrax.Services
                     .ThenInclude(ES => ES.Skill)
                         .ThenInclude(S => S.SkillType)
                  .Include(E => E.RoleType)
-                .ToList();
+                 .AsNoTracking()
+                .ToListAsync();
         }
 
         public async Task<Employee> GetEmployee(int id)
         {
-            return _db.Employee
+            return await _db.Employee
                 .Include(E => E.EmployeeCertifications)
                     .ThenInclude(EC => EC.Certification)
                         .ThenInclude(C => C.CertCategory)
@@ -46,13 +47,14 @@ namespace SkillTrax.Services
                     .ThenInclude(ES => ES.Skill)
                         .ThenInclude(S => S.SkillType)
                  .Include(E => E.RoleType)
-                .FirstOrDefault(Employee => Employee.EmployeeId == id);
+                 .AsNoTracking()
+                .FirstOrDefaultAsync(Employee => Employee.EmployeeId == id);
                 
         }
 
         public async Task<Employee> GetEmployeeByAdUniqueId(string AdUniqueId)
         {
-            return _db.Employee
+            return await _db.Employee
                 .Include(E => E.EmployeeCertifications)
                     .ThenInclude(EC => EC.Certification)
                         .ThenInclude(C => C.CertCategory)
@@ -63,30 +65,38 @@ namespace SkillTrax.Services
                     .ThenInclude(ES => ES.Skill)
                         .ThenInclude(S => S.SkillType)
                  .Include(E => E.RoleType)
-                .FirstOrDefault(Employee => Employee.AdUniqueIdentifier == AdUniqueId);
+                 .AsNoTracking()
+                .FirstOrDefaultAsync(Employee => Employee.AdUniqueIdentifier == AdUniqueId);
         }
 
+        
         public async Task<List<Certification>> GetEmployeeCertifications(int employeeId)
         {
-            List<EmployeeCertification> employeeCertifications = _db.EmployeeCertification
-                .Where(EC => EC.EmployeeId == employeeId).ToList();
+            List<EmployeeCertification> employeeCertifications = await _db.EmployeeCertification
+                .Include(EC => EC.Certification)
+                .Where(EC => EC.EmployeeId == employeeId)
+                .AsNoTracking()
+                .ToListAsync();
             List<Certification> Certifications = new List<Certification>();
-            foreach (EmployeeCertification employeeCertification in employeeCertifications)
+           foreach(EmployeeCertification employeeCert in employeeCertifications)
             {
-                Certifications.Add(_db.Certification
-                    .FirstOrDefault(C => C.CertificationId == employeeCertification.CertificationId));
+                Certifications.Add(employeeCert.Certification);
             }
             return Certifications;
         }
 
+       
         public async Task<List<Skill>> GetEmployeeSkills(int employeeId)
         {
-            List<EmployeeSkill> employeeSkills = _db.EmployeeSkill
-                .Where(ES => ES.EmployeeId == employeeId).ToList();
+            List<EmployeeSkill> employeeSkills = await _db.EmployeeSkill
+                .Include(ES => ES.Skill)
+                .Where(ES => ES.EmployeeId == employeeId)
+                .AsNoTracking()
+                .ToListAsync();
             List<Skill> Skills = new List<Skill>();
             foreach (EmployeeSkill employeeSkill in employeeSkills)
             {
-                Skills.Add(_db.Skill.FirstOrDefault(S => S.SkillId == employeeSkill.SkillId));
+                Skills.Add(employeeSkill.Skill);
             }
             return Skills;
         }

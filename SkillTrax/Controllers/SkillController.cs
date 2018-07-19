@@ -24,7 +24,15 @@ namespace SkillTrax.Controllers
         [HttpGet("")]
         public async Task<IActionResult> GetSkills()
         {
-            return Ok(await _dataService.GetSkillViewModels());
+            try
+            {
+                return Ok(await _dataService.GetSkillViewModels());
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
     }
 }
