@@ -80,11 +80,12 @@ namespace SkillTrax
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ISkillRepository, SkillRepository>();
             services.AddScoped<ICertificationRepository, CertificationRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
             services.AddScoped<ISkillDataService, SkillDataService>();
             services.AddScoped<IEmployeeDataService, EmployeeDataService>();
             services.AddScoped<ICertificationDataService, CertificationDataService>();
-            
+            services.AddScoped<IRoleDataService, RoleDataService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
