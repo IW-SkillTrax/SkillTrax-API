@@ -12,15 +12,14 @@ namespace SkillTrax.Models
         public string FirstName { get; set; }
         [Required]
         public string LastName { get; set; }
-
-        [ForeignKey("RoleType")]
-        public int RoleTypeId { get; set; }
+        [Required]
+        public bool IsAdmin { get; set; }
+        [Required]
+        public string AdUniqueIdentifier { get; set; }
         public RoleType RoleType { get; set; }
 
-        public virtual ICollection<Skill> Skills { get; set; }
+        public IEnumerable <EmployeeSkill> EmployeeSkills { get; set; }
+        public IEnumerable <EmployeeCertification> EmployeeCertifications { get; set; }
 
-        public bool IsAdmin { get; set; }
-
-        public string AdUniqueIdentifier { get; set; }
     }
 }

@@ -10,8 +10,8 @@ using SkillTrax.Models;
 namespace SkillTrax.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20180620014206_updatedEmployee")]
-    partial class updatedEmployee
+    [Migration("20180718154431_RemovedManyToManys")]
+    partial class RemovedManyToManys
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,27 +21,13 @@ namespace SkillTrax.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("SkillTrax.Models.CertCategory", b =>
-                {
-                    b.Property<int>("CertCategoryId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("CertCategoryName")
-                        .IsRequired();
-
-                    b.HasKey("CertCategoryId");
-
-                    b.ToTable("CertCategory");
-                });
-
             modelBuilder.Entity("SkillTrax.Models.Certification", b =>
                 {
                     b.Property<int>("CertificationId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("CertCategoryId");
+                    b.Property<int?>("CertCategoryId");
 
                     b.Property<string>("CertificationName")
                         .IsRequired();
@@ -53,6 +39,20 @@ namespace SkillTrax.Migrations
                     b.ToTable("Certification");
                 });
 
+            modelBuilder.Entity("SkillTrax.Models.CertificationCategory", b =>
+                {
+                    b.Property<int>("CertCategoryId")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("CertCategoryName")
+                        .IsRequired();
+
+                    b.HasKey("CertCategoryId");
+
+                    b.ToTable("CertificationCategory");
+                });
+
             modelBuilder.Entity("SkillTrax.Models.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
@@ -60,8 +60,6 @@ namespace SkillTrax.Migrations
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<string>("AdUniqueIdentifier");
-
-                    b.Property<int?>("CertificationId");
 
                     b.Property<string>("FirstName")
                         .IsRequired();
@@ -71,38 +69,32 @@ namespace SkillTrax.Migrations
                     b.Property<string>("LastName")
                         .IsRequired();
 
-                    b.Property<int>("RoleTypeId");
-
-                    b.Property<int?>("SkillId");
+                    b.Property<int?>("RoleTypeRoleId");
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("CertificationId");
-
-                    b.HasIndex("RoleTypeId");
-
-                    b.HasIndex("SkillId");
+                    b.HasIndex("RoleTypeRoleId");
 
                     b.ToTable("Employee");
                 });
 
-            modelBuilder.Entity("SkillTrax.Models.EmployeeCert", b =>
+            modelBuilder.Entity("SkillTrax.Models.EmployeeCertification", b =>
                 {
-                    b.Property<int>("EmployeeCertId")
+                    b.Property<int>("EmployeeCertificationId")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
                     b.Property<int>("CertificationId");
 
-                    b.Property<int>("SkillId");
+                    b.Property<int>("EmployeeId");
 
-                    b.HasKey("EmployeeCertId");
+                    b.HasKey("EmployeeCertificationId");
 
                     b.HasIndex("CertificationId");
 
-                    b.HasIndex("SkillId");
+                    b.HasIndex("EmployeeId");
 
-                    b.ToTable("EmployeeCert");
+                    b.ToTable("EmployeeCertification");
                 });
 
             modelBuilder.Entity("SkillTrax.Models.EmployeeSkill", b =>
@@ -147,7 +139,15 @@ namespace SkillTrax.Migrations
                     b.Property<string>("SkillName")
                         .IsRequired();
 
+                    b.Property<int?>("SkillTypeId");
+
+                    b.Property<int?>("SolutionId");
+
                     b.HasKey("SkillId");
+
+                    b.HasIndex("SkillTypeId");
+
+                    b.HasIndex("SolutionId");
 
                     b.ToTable("Skill");
                 });
@@ -166,21 +166,6 @@ namespace SkillTrax.Migrations
                     b.ToTable("SkillType");
                 });
 
-            modelBuilder.Entity("SkillTrax.Models.SkillTypeSkill", b =>
-                {
-                    b.Property<int>("SkillTypeSkillId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SkillId");
-
-                    b.Property<int>("SkillTypeId");
-
-                    b.HasKey("SkillTypeSkillId");
-
-                    b.ToTable("SkillTypeSkill");
-                });
-
             modelBuilder.Entity("SkillTrax.Models.Solution", b =>
                 {
                     b.Property<int>("SolutionId")
@@ -195,69 +180,55 @@ namespace SkillTrax.Migrations
                     b.ToTable("Solution");
                 });
 
-            modelBuilder.Entity("SkillTrax.Models.SolutionSkill", b =>
-                {
-                    b.Property<int>("SolutionSkillId")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("SkillId");
-
-                    b.Property<int>("SolutionId");
-
-                    b.HasKey("SolutionSkillId");
-
-                    b.ToTable("SolutionSkill");
-                });
-
             modelBuilder.Entity("SkillTrax.Models.Certification", b =>
                 {
-                    b.HasOne("SkillTrax.Models.CertCategory", "CertCategory")
-                        .WithMany()
-                        .HasForeignKey("CertCategoryId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                    b.HasOne("SkillTrax.Models.CertificationCategory", "CertCategory")
+                        .WithMany("Certifications")
+                        .HasForeignKey("CertCategoryId");
                 });
 
             modelBuilder.Entity("SkillTrax.Models.Employee", b =>
                 {
-                    b.HasOne("SkillTrax.Models.Certification")
-                        .WithMany("Employees")
-                        .HasForeignKey("CertificationId");
-
                     b.HasOne("SkillTrax.Models.RoleType", "RoleType")
                         .WithMany("Employees")
-                        .HasForeignKey("RoleTypeId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("SkillTrax.Models.Skill")
-                        .WithMany("Employees")
-                        .HasForeignKey("SkillId");
+                        .HasForeignKey("RoleTypeRoleId");
                 });
 
-            modelBuilder.Entity("SkillTrax.Models.EmployeeCert", b =>
+            modelBuilder.Entity("SkillTrax.Models.EmployeeCertification", b =>
                 {
                     b.HasOne("SkillTrax.Models.Certification", "Certification")
-                        .WithMany()
+                        .WithMany("EmployeeCertifications")
                         .HasForeignKey("CertificationId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("SkillTrax.Models.Skill", "Skill")
-                        .WithMany()
-                        .HasForeignKey("SkillId")
+                    b.HasOne("SkillTrax.Models.Employee", "Employee")
+                        .WithMany("EmployeeCertifications")
+                        .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("SkillTrax.Models.EmployeeSkill", b =>
                 {
                     b.HasOne("SkillTrax.Models.Employee", "Employee")
-                        .WithMany()
+                        .WithMany("EmployeeSkills")
                         .HasForeignKey("EmployeeId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("SkillTrax.Models.Skill", "Skill")
-                        .WithMany()
+                        .WithMany("EmployeeSkills")
                         .HasForeignKey("SkillId")
                         .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("SkillTrax.Models.Skill", b =>
+                {
+                    b.HasOne("SkillTrax.Models.SkillType", "SkillType")
+                        .WithMany("Skills")
+                        .HasForeignKey("SkillTypeId");
+
+                    b.HasOne("SkillTrax.Models.Solution", "Solution")
+                        .WithMany("Skills")
+                        .HasForeignKey("SolutionId");
                 });
 #pragma warning restore 612, 618
         }

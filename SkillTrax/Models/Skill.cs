@@ -7,10 +7,14 @@ namespace SkillTrax.Models
     {
         [Key]
         public int SkillId { get; set; }
-
         [Required]
         public string SkillName { get; set; }
-   
-        public ICollection<Employee> Employees { get; set; }
+        [Required]
+        public Solution Solution { get; set; }
+        [Required]
+        public SkillType SkillType { get; set; }
+        public IEnumerable<EmployeeSkill> EmployeeSkills { get; set; }
+        
+
     }
 }

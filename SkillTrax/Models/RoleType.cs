@@ -9,7 +9,6 @@ namespace SkillTrax.Models
         public int RoleId { get; set; }
         [Required]
         public string RoleName { get; set; }
-
-        public ICollection<Employee> Employees { get; set; }
+        public IEnumerable<Employee> Employees { get; set; }
     }
 }

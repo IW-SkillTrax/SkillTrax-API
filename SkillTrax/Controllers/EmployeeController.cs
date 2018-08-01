@@ -7,69 +7,101 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
-using SkillTrax.Models;
 using SkillTrax.Services;
+using SkillTrax.ViewModels;
 
 namespace SkillTrax.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Employee")]
+    [Route("[controller]")]
     public class EmployeeController : Controller
     {
+        private readonly IEmployeeDataService _DataService;
 
-        private readonly AppDbContext db;
-
-        public EmployeeController(AppDbContext context)
+        public EmployeeController(IEmployeeDataService DataService)
         {
-            db = context;
+            _DataService = DataService;
         }
 
-        [Route(""), HttpGet]
-        public IQueryable<Employee> GetEmployees()
+        [HttpGet("")]
+        public async Task<IActionResult> GetEmployees()
         {
-            return db.Employee; 
+            try
+            {
+                List<EmployeeViewModel> employees = await _DataService.GetEmployeeViewModels();
+                return Ok(employees);
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
 
-        [Route("{id}"), HttpGet]
-        public IQueryable GetEmployee(int id)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetEmployeeById(int id)
         {
-            var repo = new EmployeeRepository(db);
-            return repo.GetEmployee(id);
+            try
+            {
+                EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModel(id);
+                if (employeeViewModel == null)
+                {
+                    return NotFound();
+                }
+                return Ok(employeeViewModel);
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
 
-        [Route("ActiveDirectoryId/{adUniqueId}"), HttpGet]
-        public IQueryable GetEmployeeByAdUniqueId(string adUniqueId)
+        [HttpGet("ActiveDirectoryId/{adUniqueId}")]
+        public async Task<IActionResult> GetEmployeeByAdUniqueId(string adUniqueId)
         {
-            var repo = new EmployeeRepository(db);
-            return repo.GetEmployeeByAdUniqueId(adUniqueId);
+            try
+            {
+                EmployeeViewModel employeeViewModel = await _DataService.GetEmployeeViewModelByAdUniqueId(adUniqueId);
+                if (employeeViewModel == null)
+                {
+                    return NotFound();
+                }
+                return Ok(employeeViewModel);
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
+        
+        [HttpPost("{employeeId}/Skill/{skillId}")]
+        public async Task<IActionResult> AddEmployeeSkill(int employeeId, int skillId)
+        {
+            try
+            {
+                return Ok(await _DataService.AddEmployeeSkill(employeeId, skillId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
         }
 
-        [Route("{employeeId}/Skill/{skillId}"), HttpPost]
-        public int AddEmployeeSkill(int employeeId, int skillId)
+        [HttpDelete("EmployeeSkill/{employeeSkillId}")]
+        public async Task<IActionResult> DeleteEmployeeSkill(int employeeSkillId)
         {
-            var repo = new EmployeeRepository(db);
-            return repo.AddEmployeeSkill(employeeId, skillId);
-        }
+            try
+            {
+                return Ok(await _DataService.DeleteEmployeeSkill(employeeSkillId));
+            }
+            catch(Exception e)
+            {
 
-        [Route("EmployeeSkill/{employeeSkillId}"), HttpDelete]
-        public int DeleteEmployeeSkill(int employeeSkillId)
-        {
-            var repo = new EmployeeRepository(db);
-            return repo.DeleteEmployeeSkill(employeeSkillId);
-        }
-
-        [Route("{employeeId}/Skills"), HttpGet]
-        public IQueryable GetEmployeeSkill(int employeeId)
-        {
-            var repo = new EmployeeRepository(db);
-            return repo.GetEmployeeSkills(employeeId);
-        }
-
-        [Route("{employeeId}/AvailableSkills"), HttpGet]
-        public IQueryable GetAvailableSkills(int employeeId)
-        {
-            var repo = new EmployeeRepository(db);
-            return repo.GetAvailableSkills(employeeId);
+            }
+            return BadRequest();
         }
     }
 }

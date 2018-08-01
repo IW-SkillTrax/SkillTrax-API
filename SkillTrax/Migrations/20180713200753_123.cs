@@ -3,12 +3,12 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace SkillTrax.Migrations
 {
-    public partial class InitialCreate : Migration
+    public partial class _123 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "CertificateCategory",
+                name: "CertificationCategory",
                 columns: table => new
                 {
                     CertCategoryId = table.Column<int>(nullable: false)
@@ -17,7 +17,7 @@ namespace SkillTrax.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CertificateCategory", x => x.CertCategoryId);
+                    table.PrimaryKey("PK_CertificationCategory", x => x.CertCategoryId);
                 });
 
             migrationBuilder.CreateTable(
@@ -60,6 +60,62 @@ namespace SkillTrax.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Solution",
+                columns: table => new
+                {
+                    SolutionId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    SolutionName = table.Column<string>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Solution", x => x.SolutionId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Certification",
+                columns: table => new
+                {
+                    CertificationId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CertificationName = table.Column<string>(nullable: false),
+                    CertCategoryId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Certification", x => x.CertificationId);
+                    table.ForeignKey(
+                        name: "FK_Certification_CertificationCategory_CertCategoryId",
+                        column: x => x.CertCategoryId,
+                        principalTable: "CertificationCategory",
+                        principalColumn: "CertCategoryId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Employee",
+                columns: table => new
+                {
+                    EmployeeId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    FirstName = table.Column<string>(nullable: false),
+                    LastName = table.Column<string>(nullable: false),
+                    IsAdmin = table.Column<bool>(nullable: false),
+                    AdUniqueIdentifier = table.Column<string>(nullable: true),
+                    RoleTypeRoleId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
+                    table.ForeignKey(
+                        name: "FK_Employee_Role_RoleTypeRoleId",
+                        column: x => x.RoleTypeRoleId,
+                        principalTable: "Role",
+                        principalColumn: "RoleId",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "SkillTypeSkill",
                 columns: table => new
                 {
@@ -71,19 +127,18 @@ namespace SkillTrax.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SkillTypeSkill", x => x.SkillTypeSkillId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Solution",
-                columns: table => new
-                {
-                    SolutionId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    SolutionName = table.Column<string>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Solution", x => x.SolutionId);
+                    table.ForeignKey(
+                        name: "FK_SkillTypeSkill_Skill_SkillId",
+                        column: x => x.SkillId,
+                        principalTable: "Skill",
+                        principalColumn: "SkillId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SkillTypeSkill_SkillType_SkillTypeId",
+                        column: x => x.SkillTypeId,
+                        principalTable: "SkillType",
+                        principalColumn: "SkillTypeId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -98,87 +153,43 @@ namespace SkillTrax.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_SolutionSkill", x => x.SolutionSkillId);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Certificate",
-                columns: table => new
-                {
-                    CertificateId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CertificateName = table.Column<string>(nullable: false),
-                    CertCategoryId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Certificate", x => x.CertificateId);
                     table.ForeignKey(
-                        name: "FK_Certificate_CertificateCategory_CertCategoryId",
-                        column: x => x.CertCategoryId,
-                        principalTable: "CertificateCategory",
-                        principalColumn: "CertCategoryId",
+                        name: "FK_SolutionSkill_Skill_SkillId",
+                        column: x => x.SkillId,
+                        principalTable: "Skill",
+                        principalColumn: "SkillId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_SolutionSkill_Solution_SolutionId",
+                        column: x => x.SolutionId,
+                        principalTable: "Solution",
+                        principalColumn: "SolutionId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
-                name: "Employee",
+                name: "EmployeeCertification",
                 columns: table => new
                 {
+                    EmployeeCertificationId = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    CertificationId = table.Column<int>(nullable: false),
                     EmployeeId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    FirstName = table.Column<string>(nullable: false),
-                    LastName = table.Column<string>(nullable: false),
-                    RoleTypeId = table.Column<int>(nullable: false),
-                    IsAdmin = table.Column<bool>(nullable: false),
-                    CertificateId = table.Column<int>(nullable: true),
-                    SkillId = table.Column<int>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Employee", x => x.EmployeeId);
+                    table.PrimaryKey("PK_EmployeeCertification", x => x.EmployeeCertificationId);
                     table.ForeignKey(
-                        name: "FK_Employee_Certificate_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificate",
-                        principalColumn: "CertificateId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Employee_Role_RoleTypeId",
-                        column: x => x.RoleTypeId,
-                        principalTable: "Role",
-                        principalColumn: "RoleId",
+                        name: "FK_EmployeeCertification_Certification_CertificationId",
+                        column: x => x.CertificationId,
+                        principalTable: "Certification",
+                        principalColumn: "CertificationId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Employee_Skill_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skill",
-                        principalColumn: "SkillId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "EmployeeCert",
-                columns: table => new
-                {
-                    EmployeeCertId = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    CertificateId = table.Column<int>(nullable: false),
-                    SkillId = table.Column<int>(nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_EmployeeCert", x => x.EmployeeCertId);
-                    table.ForeignKey(
-                        name: "FK_EmployeeCert_Certificate_CertificateId",
-                        column: x => x.CertificateId,
-                        principalTable: "Certificate",
-                        principalColumn: "CertificateId",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_EmployeeCert_Skill_SkillId",
-                        column: x => x.SkillId,
-                        principalTable: "Skill",
-                        principalColumn: "SkillId",
+                        name: "FK_EmployeeCertification_Employee_EmployeeId",
+                        column: x => x.EmployeeId,
+                        principalTable: "Employee",
+                        principalColumn: "EmployeeId",
                         onDelete: ReferentialAction.Cascade);
                 });
 
@@ -209,34 +220,24 @@ namespace SkillTrax.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Certificate_CertCategoryId",
-                table: "Certificate",
+                name: "IX_Certification_CertCategoryId",
+                table: "Certification",
                 column: "CertCategoryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_CertificateId",
+                name: "IX_Employee_RoleTypeRoleId",
                 table: "Employee",
-                column: "CertificateId");
+                column: "RoleTypeRoleId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_RoleTypeId",
-                table: "Employee",
-                column: "RoleTypeId");
+                name: "IX_EmployeeCertification_CertificationId",
+                table: "EmployeeCertification",
+                column: "CertificationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Employee_SkillId",
-                table: "Employee",
-                column: "SkillId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeCert_CertificateId",
-                table: "EmployeeCert",
-                column: "CertificateId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_EmployeeCert_SkillId",
-                table: "EmployeeCert",
-                column: "SkillId");
+                name: "IX_EmployeeCertification_EmployeeId",
+                table: "EmployeeCertification",
+                column: "EmployeeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_EmployeeSkill_EmployeeId",
@@ -247,42 +248,62 @@ namespace SkillTrax.Migrations
                 name: "IX_EmployeeSkill_SkillId",
                 table: "EmployeeSkill",
                 column: "SkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SkillTypeSkill_SkillId",
+                table: "SkillTypeSkill",
+                column: "SkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SkillTypeSkill_SkillTypeId",
+                table: "SkillTypeSkill",
+                column: "SkillTypeId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SolutionSkill_SkillId",
+                table: "SolutionSkill",
+                column: "SkillId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SolutionSkill_SolutionId",
+                table: "SolutionSkill",
+                column: "SolutionId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "EmployeeCert");
+                name: "EmployeeCertification");
 
             migrationBuilder.DropTable(
                 name: "EmployeeSkill");
 
             migrationBuilder.DropTable(
-                name: "SkillType");
-
-            migrationBuilder.DropTable(
                 name: "SkillTypeSkill");
-
-            migrationBuilder.DropTable(
-                name: "Solution");
 
             migrationBuilder.DropTable(
                 name: "SolutionSkill");
 
             migrationBuilder.DropTable(
+                name: "Certification");
+
+            migrationBuilder.DropTable(
                 name: "Employee");
 
             migrationBuilder.DropTable(
-                name: "Certificate");
-
-            migrationBuilder.DropTable(
-                name: "Role");
+                name: "SkillType");
 
             migrationBuilder.DropTable(
                 name: "Skill");
 
             migrationBuilder.DropTable(
-                name: "CertificateCategory");
+                name: "Solution");
+
+            migrationBuilder.DropTable(
+                name: "CertificationCategory");
+
+            migrationBuilder.DropTable(
+                name: "Role");
         }
     }
 }

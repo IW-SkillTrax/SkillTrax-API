@@ -2,31 +2,27 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using SkillTrax.Services;
-using SkillTrax.ViewModels;
+
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace SkillTrax.Controllers
 {
-    [Produces("application/json")]
     [Route("[controller]")]
-    public class SkillController : Controller
+    public class CertificationController : Controller
     {
-        private readonly ISkillDataService _dataService;
-
-        public SkillController(ISkillDataService dataService)
+        private ICertificationDataService _dataService;
+        public CertificationController(ICertificationDataService dataService)
         {
             _dataService = dataService;
         }
-
         [HttpGet("")]
-        public async Task<IActionResult> GetSkills()
+        public async Task<IActionResult> GetCertifications()
         {
             try
             {
-                return Ok(await _dataService.GetSkillViewModels());
+                return Ok(await _dataService.GetCertifications());
             }
             catch(Exception e)
             {

@@ -3,17 +3,14 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SkillTrax.Models
 {
-    public class EmployeeCert
+    public class EmployeeCertification
     {
         [Key]
-        public int EmployeeCertId { get; set; }
-
-        [ForeignKey("Certification")]
+        public int EmployeeCertificationId { get; set; }
         public int CertificationId { get; set; }
         public Certification Certification { get; set; }
 
-        [ForeignKey("Skill")]
-        public int SkillId { get; set; }
-        public Skill Skill { get; set; }
+        public int EmployeeId { get; set; }
+        public Employee Employee { get; set; }
     }
 }
