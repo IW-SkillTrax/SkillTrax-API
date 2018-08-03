@@ -103,7 +103,7 @@ namespace SkillTrax.Services
 
         public async Task<int> AddEmployeeSkill(int employeeId, int skillId)
         {
-            var employeeSkill = new EmployeeSkill
+            EmployeeSkill employeeSkill = new EmployeeSkill
             {
                 EmployeeId = employeeId,
                 SkillId = skillId
@@ -112,12 +112,9 @@ namespace SkillTrax.Services
             return _db.SaveChanges();
         }
 
-        public async Task<int> DeleteEmployeeSkill(int employeeSkillId)
+        public async Task<int> DeleteEmployeeSkill(int employeeId, int skillId)
         {
-            var employeeSkill = new EmployeeSkill
-            {
-                EmployeeSkillId = employeeSkillId
-            };
+            EmployeeSkill employeeSkill = await _db.EmployeeSkill.FirstOrDefaultAsync(x => x.SkillId == skillId && x.EmployeeId == employeeId);
             _db.EmployeeSkill.Remove(employeeSkill);
             return _db.SaveChanges();
         }

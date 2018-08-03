@@ -53,9 +53,9 @@ namespace SkillTrax.Services
             return new EmployeeViewModel(employee);
         }
 
-        public async Task<int> DeleteEmployeeSkill(int employeeSkillId)
+        public async Task<int> DeleteEmployeeSkill(int employeeId, int skillId)
         {
-            return await _employeeRepo.DeleteEmployeeSkill(employeeSkillId);
+            return await _employeeRepo.DeleteEmployeeSkill(employeeId, skillId);
         }
 
         public async Task<int> AddEmployeeSkill(int employeeId, int skillId)

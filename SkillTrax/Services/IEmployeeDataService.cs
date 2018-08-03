@@ -12,6 +12,6 @@ namespace SkillTrax.Services
         Task<List<EmployeeViewModel>> GetEmployeeViewModels();
         Task<EmployeeViewModel> GetEmployeeViewModelByAdUniqueId(string adUniqueId);
         Task<int> AddEmployeeSkill(int employeeId, int skillId);
-        Task<int> DeleteEmployeeSkill(int employeeSkillId);
+        Task<int> DeleteEmployeeSkill(int employeeId, int skillId);
     }
 }
