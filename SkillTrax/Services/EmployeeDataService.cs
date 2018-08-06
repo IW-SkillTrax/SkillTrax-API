@@ -62,5 +62,13 @@ namespace SkillTrax.Services
         {
             return await _employeeRepo.AddEmployeeSkill(employeeId, skillId);
         }
+        public async Task<int> DeleteEmployeeCertification(int employeeId, int skillId)
+        {
+            return await _employeeRepo.DeleteEmployeeCertification(employeeId, skillId);
+        }
+        public async Task<int> AddEmployeeCertification(int employeeId, int certificationId)
+        {
+            return await _employeeRepo.AddEmployeeCertification(employeeId, certificationId);
+        }
     }
 }

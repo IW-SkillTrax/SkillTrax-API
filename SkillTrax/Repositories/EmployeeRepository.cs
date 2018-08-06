@@ -85,7 +85,6 @@ namespace SkillTrax.Services
             return Certifications;
         }
 
-       
         public async Task<List<Skill>> GetEmployeeSkills(int employeeId)
         {
             List<EmployeeSkill> employeeSkills = await _db.EmployeeSkill
@@ -111,11 +110,26 @@ namespace SkillTrax.Services
             _db.EmployeeSkill.Add(employeeSkill);
             return _db.SaveChanges();
         }
-
         public async Task<int> DeleteEmployeeSkill(int employeeId, int skillId)
         {
             EmployeeSkill employeeSkill = await _db.EmployeeSkill.FirstOrDefaultAsync(x => x.SkillId == skillId && x.EmployeeId == employeeId);
             _db.EmployeeSkill.Remove(employeeSkill);
+            return _db.SaveChanges();
+        }
+        public async Task<int> DeleteEmployeeCertification(int employeeId, int certificationId)
+        {
+            EmployeeCertification employeeCert = await _db.EmployeeCertification.FirstOrDefaultAsync(x => x.EmployeeId == employeeId && x.CertificationId == certificationId);
+            _db.EmployeeCertification.Remove(employeeCert);
+            return _db.SaveChanges();
+        }
+        public async Task<int> AddEmployeeCertification(int employeeId, int certificationId)
+        {
+            EmployeeCertification employeeCert = new EmployeeCertification
+            {
+                EmployeeId = employeeId,
+                CertificationId = certificationId
+            };
+            _db.EmployeeCertification.Add(employeeCert);
             return _db.SaveChanges();
         }
     }

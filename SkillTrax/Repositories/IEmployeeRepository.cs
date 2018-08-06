@@ -16,5 +16,7 @@ namespace SkillTrax.Services
         Task<List<Certification>> GetEmployeeCertifications(int employeeId);
         Task<int> AddEmployeeSkill(int employeeId, int skillId);
         Task<int> DeleteEmployeeSkill(int employeeId, int skillId);
+        Task<int> DeleteEmployeeCertification(int employeeId, int certificationId);
+        Task<int> AddEmployeeCertification(int employeeId, int certificationId);
     }
 }

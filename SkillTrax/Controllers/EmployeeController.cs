@@ -76,7 +76,7 @@ namespace SkillTrax.Controllers
             return BadRequest();
         }
         
-        [HttpPost("{employeeId}/AddSkill/{skillId}")]
+        [HttpGet("{employeeId}/AddSkill/{skillId}")]
         public async Task<IActionResult> AddEmployeeSkill(int employeeId, int skillId)
         {
             try
@@ -96,6 +96,32 @@ namespace SkillTrax.Controllers
             try
             {
                 return Ok(await _DataService.DeleteEmployeeSkill(employeeId, skillId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
+        [HttpDelete("{employeeId}/RemoveCertification/{skillId}")]
+        public async Task<IActionResult> DeleteEmployeeCertification(int employeeId, int skillId)
+        {
+            try
+            {
+                return Ok(await _DataService.DeleteEmployeeCertification(employeeId, skillId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
+        [HttpGet("{employeeId}/AddCertification/{certificationId}")]
+        public async Task<IActionResult> AddEmployeeCertification(int employeeId, int certificationId)
+        {
+            try
+            {
+                return Ok(await _DataService.AddEmployeeCertification(employeeId, certificationId));
             }
             catch(Exception e)
             {
