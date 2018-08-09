@@ -11,7 +11,8 @@ namespace SkillTrax.Services
     {
         Task<Skill> GetSkillById(int Id);
         Task<List<Skill>> GetSkills();
-        
-        
+        Task<int> DeleteSkill(int skillId);
+
+
     }
 }

@@ -38,5 +38,9 @@ namespace SkillTrax.Services
             
             return skillViewModel;
         }
+        public async Task<int> DeleteSkill(int skillId)
+        {
+            return await _repo.DeleteSkill(skillId);
+        }
     }
 }

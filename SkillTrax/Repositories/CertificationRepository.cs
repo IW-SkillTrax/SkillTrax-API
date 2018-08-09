@@ -21,5 +21,11 @@ namespace SkillTrax.Repositories
                 .AsNoTracking()
                 .ToListAsync();
         }
+        public async Task<int> DeleteCertification(int certificationId)
+        {
+            Certification cert = await _db.Certification.FirstOrDefaultAsync(c => c.CertificationId == certificationId);
+            _db.Certification.Remove(cert);
+            return _db.SaveChanges();
+        }
     }
 }

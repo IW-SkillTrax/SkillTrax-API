@@ -18,5 +18,6 @@ namespace SkillTrax.Repositories
         {
             return await _db.Role.AsNoTracking().ToListAsync();
         }
+       
     }
 }

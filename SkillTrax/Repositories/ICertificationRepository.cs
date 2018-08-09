@@ -9,5 +9,6 @@ namespace SkillTrax.Repositories
     public interface ICertificationRepository
     {
         Task<List<Certification>> GetCertifications();
+        Task<int> DeleteCertification(int certificationId);
     }
 }

@@ -30,5 +30,18 @@ namespace SkillTrax.Controllers
             }
             return BadRequest();
         }
+        [HttpDelete("/Delete/{certificationId}")]
+        public async Task<IActionResult> DeleteCertification(int certificationId)
+        {
+            try
+            {
+                return Ok( await _dataService.DeleteCertification(certificationId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
     }
 }

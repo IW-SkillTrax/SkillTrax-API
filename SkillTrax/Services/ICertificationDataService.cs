@@ -7,5 +7,6 @@ namespace SkillTrax.Services
     public interface ICertificationDataService
     {
         Task<List<CertificationViewModel>> GetCertifications();
+        Task<int> DeleteCertification(int certificationId);
     }
 }

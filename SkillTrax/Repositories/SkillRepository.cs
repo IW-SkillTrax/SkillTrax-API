@@ -33,6 +33,12 @@ namespace SkillTrax.Services
                 .AsNoTracking()
                 .ToListAsync();
         }
+        public async Task<int> DeleteSkill(int skillId)
+        {
+            Skill skill = await _db.Skill.FirstOrDefaultAsync(s => s.SkillId == skillId);
+            _db.Skill.Remove(skill);
+            return _db.SaveChanges();
+        }
     }
 }
 

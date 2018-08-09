@@ -34,5 +34,18 @@ namespace SkillTrax.Controllers
             }
             return BadRequest();
         }
+        [HttpDelete("/Delete/{skillId}")]
+        public async Task<IActionResult> DeleteSkill(int skillId)
+        {
+            try
+            {
+                return Ok(await _dataService.DeleteSkill(skillId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
     }
 }

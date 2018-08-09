@@ -32,5 +32,9 @@ namespace SkillTrax.Services
             }
             return certificationViewModels;
         }
+        public async Task<int> DeleteCertification(int certificationId)
+        {
+            return await _repo.DeleteCertification(certificationId);
+        }
     }
 }
