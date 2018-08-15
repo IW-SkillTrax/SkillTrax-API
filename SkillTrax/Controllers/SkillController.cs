@@ -34,12 +34,52 @@ namespace SkillTrax.Controllers
             }
             return BadRequest();
         }
-        [HttpDelete("/Delete/{skillId}")]
+        [HttpGet("Types")]
+        public async Task<IActionResult> getSkillTypes()
+        {
+            try
+            {
+                return Ok(await _dataService.getSkillTypeViewModels());
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
+        [HttpDelete("{skillId}")]
         public async Task<IActionResult> DeleteSkill(int skillId)
         {
             try
             {
                 return Ok(await _dataService.DeleteSkill(skillId));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+        }
+        [HttpPost]
+        public async Task<IActionResult> CreateSkill([FromBody]SkillViewModel skillVm)
+        {
+            try
+            {
+                return Ok(await _dataService.CreateSkill(skillVm));
+            }
+            catch(Exception e)
+            {
+
+            }
+            return BadRequest();
+            
+        }
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateSkill(int id, [FromBody]SkillViewModel skillVm)
+        {
+            try
+            {
+                return Ok(await _dataService.UpdateSkill(id, skillVm));
             }
             catch(Exception e)
             {

@@ -42,5 +42,24 @@ namespace SkillTrax.Services
         {
             return await _repo.DeleteSkill(skillId);
         }
+        public async Task<int> CreateSkill(SkillViewModel skill)
+        {
+            return await _repo.CreateSkill(skill.SkillName, skill.SkillTypeId, skill.SolutionId);
+        }
+        public async Task<List<SkillTypeViewModel>> getSkillTypeViewModels()
+        {
+            List<SkillType> skillTypes = await _repo.getSkillTypes();
+            List<SkillTypeViewModel> skillTypeVMs = new List<SkillTypeViewModel>();
+            foreach(SkillType skillType in skillTypes)
+            {
+                SkillTypeViewModel skillTypeVM = new SkillTypeViewModel(skillType);
+                skillTypeVMs.Add(skillTypeVM);
+            }
+            return skillTypeVMs;
+        }
+        public async Task<int> UpdateSkill(int id, SkillViewModel skill)
+        {
+            return (await _repo.UpdateSkill(id, skill.SkillName, skill.SkillTypeId, skill.SolutionId));
+        }
     }
 }

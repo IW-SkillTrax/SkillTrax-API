@@ -10,5 +10,8 @@ namespace SkillTrax.Repositories
     {
         Task<List<Certification>> GetCertifications();
         Task<int> DeleteCertification(int certificationId);
+        Task<List<CertificationCategory>> getCertificationCategories();
+        Task<int> CreateCertification(string certName, int categoryId);
+        Task<int> UpdateCertification(int id, string name, int categoryId);
     }
 }

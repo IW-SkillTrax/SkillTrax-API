@@ -11,6 +11,9 @@ namespace SkillTrax.Services
         Task<List<SkillViewModel>> GetSkillViewModels();
         Task<SkillViewModel> GetSkillViewModelById(int Id);
         Task<int> DeleteSkill(int skillId);
-
+        Task<int> CreateSkill(SkillViewModel skill);
+        Task<int> UpdateSkill(int id, SkillViewModel skill);
+        Task<List<SkillTypeViewModel>> getSkillTypeViewModels();
+        
     }
 }

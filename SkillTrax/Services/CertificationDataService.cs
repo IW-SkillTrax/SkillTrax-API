@@ -36,5 +36,23 @@ namespace SkillTrax.Services
         {
             return await _repo.DeleteCertification(certificationId);
         }
+        public async Task<List<CertCategoryViewModel>> getCertCategoryViewModels()
+        {
+            List<CertificationCategory> certCategories = await _repo.getCertificationCategories();
+            List<CertCategoryViewModel> certCategoryVMs = new List<CertCategoryViewModel>();
+            foreach(CertificationCategory certCategory in certCategories)
+            {
+                certCategoryVMs.Add(new CertCategoryViewModel(certCategory));
+            }
+            return certCategoryVMs;
+        }
+        public async Task<int> CreateCertification(CertificationViewModel certVm)
+        {
+            return await _repo.CreateCertification(certVm.CertificationName, certVm.CertCategoryId);
+        }
+        public async Task<int> UpdateCertification(int id, CertificationViewModel certVm)
+        {
+            return await _repo.UpdateCertification(id, certVm.CertificationName, certVm.CertCategoryId);
+        }
     }
 }

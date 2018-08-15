@@ -12,7 +12,8 @@ namespace SkillTrax.Services
         Task<Skill> GetSkillById(int Id);
         Task<List<Skill>> GetSkills();
         Task<int> DeleteSkill(int skillId);
-
-
+        Task<int> CreateSkill(string skillName, int typeId, int solutionId);
+        Task<int> UpdateSkill(int skillId, string skillName, int typeId, int solutionId);
+        Task<List<SkillType>> getSkillTypes();
     }
 }
